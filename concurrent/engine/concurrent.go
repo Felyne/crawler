@@ -12,15 +12,16 @@ type ConcurrentEngine struct {
 type Scheduler interface {
 	Submit(Request)
 	ConfigureMasterWorkerChan(chan Request)
+	WorkerReady(chan Request)
+	Run()
 }
 
+//启动调度器，创建worker，接收worker传来的结果再做处理
 func (e *ConcurrentEngine) Run(seeds ...Request) {
-	in := make(chan Request)
 	out := make(chan ParseResult)
-	e.Scheduler.ConfigureMasterWorkerChan(in) //所有worker公用一个输入
-
+	e.Scheduler.Run()
 	for i := 0; i < e.WorkerCount; i++ {
-		createWorker(in, out)
+		createWorker(out, e.Scheduler)
 	}
 	for _, r := range seeds {
 		e.Scheduler.Submit(r)
@@ -37,9 +38,12 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	}
 }
 
-func createWorker(in chan Request, out chan ParseResult) {
+// //每个worker都有自己的输入并告知调度器,另外公用一个输出
+func createWorker(out chan ParseResult, s Scheduler) {
+	in := make(chan Request)
 	go func() {
 		for {
+			s.WorkerReady(in)
 			request := <-in
 			result, err := worker(request)
 			if err != nil {
