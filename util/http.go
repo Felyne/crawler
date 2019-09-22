@@ -4,7 +4,6 @@ import (
 	"crypto/tls"
 	"net"
 	"net/http"
-	"net/http/cookiejar"
 	"net/url"
 	"time"
 )
@@ -23,9 +22,8 @@ var defaultTransport = http.Transport{
 }
 
 func NewHttpClient(httpProxy string) (*http.Client, error) {
-	jar, _ := cookiejar.New(nil)
 	if httpProxy == "" {
-		return &http.Client{Transport: &defaultTransport, Jar: jar}, nil
+		return &http.Client{Transport: &defaultTransport}, nil
 	}
 	proxy, err := url.Parse(httpProxy)
 	if err != nil {
@@ -33,11 +31,11 @@ func NewHttpClient(httpProxy string) (*http.Client, error) {
 	}
 	ts := defaultTransport
 	ts.Proxy = http.ProxyURL(proxy)
-	return &http.Client{Transport: &ts, Jar: jar}, nil
+	return &http.Client{Transport: &ts}, nil
 }
 
-func NewHttpRequest(url string) (*http.Request, error) {
-	req, err := http.NewRequest("GET", url, nil)
+func NewHttpRequest(method, url string) (*http.Request, error) {
+	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -46,12 +44,12 @@ func NewHttpRequest(url string) (*http.Request, error) {
 	return req, nil
 }
 
-func HttpGet(url, httpProxy string) (resp *http.Response, err error) {
+func HttpGet(url, httpProxy string) (*http.Response, error) {
 	client, err := NewHttpClient(httpProxy)
 	if err != nil {
 		return nil, err
 	}
-	req, err := NewHttpRequest(url)
+	req, err := NewHttpRequest("GET", url)
 	if err != nil {
 		return nil, err
 	}

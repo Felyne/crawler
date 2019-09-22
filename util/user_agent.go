@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-var userAgents = []string{
+var userAgents = [...]string{
 	"Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11",
 	"Mozilla/5.0 (Macintosh; U; Mac OS X Mach-O; en-US; rv:2.0a) Gecko/20040614 Firefox/3.0.0 ",
 	"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36",
