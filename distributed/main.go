@@ -1,10 +1,10 @@
 package main
 
 import (
-	"crawler/concurrent/engine"
-	"crawler/concurrent/persist"
-	"crawler/concurrent/scheduler"
-	"crawler/concurrent/zhenai/parser"
+	"crawler/distributed/engine"
+	"crawler/distributed/persist"
+	"crawler/distributed/scheduler"
+	"crawler/distributed/zhenai/parser"
 )
 
 func main() {
@@ -17,8 +17,4 @@ func main() {
 		Url:        "http://www.zhenai.com/zhenghun",
 		ParserFunc: parser.ParseCityList,
 	})
-	//engine.SimpleEngine{}.Run(engine.Request{
-	//	Url:        "http://www.zhenai.com/zhenghun/shanghai",
-	//	ParserFunc: parser.ParseCity,
-	//})
 }

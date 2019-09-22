@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"crawler/concurrent/engine"
+	"crawler/distributed/engine"
 	"regexp"
 )
 
