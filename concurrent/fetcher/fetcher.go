@@ -2,6 +2,7 @@ package fetcher
 
 import (
 	"bufio"
+	"crawler/concurrent/config"
 	"crawler/util"
 	"fmt"
 	"io/ioutil"
@@ -15,7 +16,7 @@ import (
 	"golang.org/x/text/transform"
 )
 
-var rateLimiter = time.Tick(time.Second / 5)
+var rateLimiter = time.Tick(time.Second / config.Qps)
 
 func Fetch(url string) ([]byte, error) {
 	<-rateLimiter
