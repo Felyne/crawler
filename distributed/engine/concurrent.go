@@ -55,7 +55,6 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 		}
 		for _, request := range result.Requests {
 			if isDuplicate(e.RedisClient, request.Url, "1") {
-				log.Println("okkk: ", request.Url)
 				continue
 			}
 			e.Scheduler.Submit(request)

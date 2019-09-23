@@ -11,20 +11,16 @@ var (
 )
 
 //根据城市的第一页来匹配页面中的用户
-func ParseCity(contents []byte) engine.ParseResult {
+func ParseCity(contents []byte, _ string) engine.ParseResult {
 	matches := profileRe.FindAllSubmatch(contents, -1)
 	result := engine.ParseResult{}
 	//m[1]是url，m[2]人名
 
 	for _, m := range matches {
-		name := string(m[2]) //避免循环变量的陷阱
-		url := string(m[1])
 		//result.Items = append(result.Items, "User: "+string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
-			Url: url,
-			ParserFunc: func(c []byte) engine.ParseResult {
-				return ParseProfile(c, url, name)
-			},
+			Url:        string(m[1]),
+			ParserFunc: ProfileParser(string(m[2])),
 		})
 	}
 
