@@ -2,44 +2,54 @@ package persist
 
 import (
 	"context"
+	"crawler/distributed/engine"
+	"errors"
 	"log"
 
 	"gopkg.in/olivere/elastic.v5"
 )
 
-func ItemSaver() chan interface{} {
-	out := make(chan interface{})
+//index相当于数据库名
+func ItemSaver(elasticURL, index string) (chan engine.Item, error) {
+	client, err := elastic.NewClient(
+		//Must turn off sniff in docker
+		elastic.SetSniff(false),
+		elastic.SetURL(elasticURL))
+	if err != nil {
+		return nil, err
+	}
+	out := make(chan engine.Item)
 	go func() {
 		itemCount := 0
 		for {
 			item := <-out
-			log.Printf("Item Saver: got item #%d: %v", itemCount, item)
+			log.Printf("Item Saver: got item  #%d: %v", itemCount, item)
 			itemCount++
-			//_, err := save(item)
-			//if err != nil {
-			//	log.Printf("Item Saver: error saving item %v: %v", item, err)
-			//}
+			err := Save(client, index, item)
+			if err != nil {
+				log.Printf("Item Saver: error saving item %v: %v", item, err)
+			}
 		}
 	}()
-	return out
+	return out, nil
 }
 
-func save(item interface{}) (string, error) {
-	//must turn off sniff in docker
-	client, err := elastic.NewClient(
-		elastic.SetSniff(false))
-	if err != nil {
-		return "", err
+func Save(client *elastic.Client, index string, item engine.Item) error {
+	if item.Type == "" {
+		return errors.New("must supply Type")
 	}
-	//Index()存数据
-	resp, err := client.Index().
-		Index("db_test").
-		Type("tb_test").
-		BodyJson(item).
-		Do(context.Background())
-	if err != nil {
-		return "", err
+	indexService := client.Index().
+		Index(index).
+		Type(item.Type).
+		BodyJson(item)
+	if item.Id != "" {
+		indexService.Id(item.Id)
 	}
-	//log.Printf("%+v", resp)
-	return resp.Id, nil
+	_, err := indexService.Do(context.Background())
+
+	if err != nil {
+		return err
+	}
+	//fmt.Printf("%+v", resp)
+	return nil
 }

@@ -4,13 +4,16 @@ import (
 	"crawler/distributed/config"
 	"log"
 	"time"
+
+	"github.com/go-redis/redis"
 )
 
 type ConcurrentEngine struct {
 	Scheduler        Scheduler
 	WorkerCount      int
-	ItemChan         chan interface{}
+	ItemChan         chan Item
 	RequestProcessor Processor
+	RedisClient      *redis.Client
 }
 
 type Processor func(Request) (ParseResult, error)
@@ -51,7 +54,8 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 			go func() { e.ItemChan <- item }()
 		}
 		for _, request := range result.Requests {
-			if isDuplicate(request.Url) {
+			if isDuplicate(e.RedisClient, request.Url, "1") {
+				log.Println("okkk: ", request.Url)
 				continue
 			}
 			e.Scheduler.Submit(request)
@@ -74,15 +78,4 @@ func (e *ConcurrentEngine) createWorker(in chan Request, out chan ParseResult, r
 			out <- result
 		}
 	}()
-}
-
-var visitedUrls = make(map[string]bool)
-
-//去重
-func isDuplicate(url string) bool {
-	if visitedUrls[url] {
-		return true
-	}
-	visitedUrls[url] = true
-	return false
 }

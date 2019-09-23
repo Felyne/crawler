@@ -4,7 +4,7 @@
 1. 准备工作
 ```shell
 # 数据存储在elasticsearch里面
-docker run -d --name=elastic -p 9200:9200 -v /home/chen/work/elastic:/usr/share/elasticsearch/data elasticsearch:5.6
+docker run -d --name=elastic -p 9200:9200 -v /home/chen/work/elastic:/usr/share/elasticsearch/data elasticsearch:5.6.6
 # redis用来去重
 docker run -d --name=myredis -p 6379:6379 -v /home/chen/work/redis:/data redis:5.0 redis-server --appendonly yes
 ```
