@@ -1,10 +1,19 @@
 package engine
 
+import (
+	"crawler/distributed/config"
+	"log"
+	"time"
+)
+
 type ConcurrentEngine struct {
-	Scheduler   Scheduler
-	WorkerCount int
-	ItemChan    chan interface{}
+	Scheduler        Scheduler
+	WorkerCount      int
+	ItemChan         chan interface{}
+	RequestProcessor Processor
 }
+
+type Processor func(Request) (ParseResult, error)
 
 type Scheduler interface {
 	ReadyNotifier
@@ -23,13 +32,20 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	out := make(chan ParseResult)
 	e.Scheduler.Run()
 	for i := 0; i < e.WorkerCount; i++ {
-		createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
+		e.createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
 	}
 	for _, r := range seeds {
 		e.Scheduler.Submit(r)
 	}
 	for {
-		result := <-out
+		tm := time.After(time.Duration(config.Timeout) * time.Second)
+		var result ParseResult
+		select {
+		case <-tm:
+			log.Printf("%ds timeout.No task execution!", config.Timeout)
+			return
+		case result = <-out:
+		}
 		for _, item := range result.Items {
 			//ItemSaver消费item的速度远比生成快,所以同一时刻不会有太多的goroutine
 			go func() { e.ItemChan <- item }()
@@ -46,12 +62,12 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 // worker拿到一个输入chan ,放到调度器的worker队列等待调度
 // 调度器拿出来发送一个request给它，任务完成后继续把输入chan放到worker队列等待调度
 // worker公用一个输出chan
-func createWorker(in chan Request, out chan ParseResult, ready ReadyNotifier) {
+func (e *ConcurrentEngine) createWorker(in chan Request, out chan ParseResult, ready ReadyNotifier) {
 	go func() {
 		for {
 			ready.WorkerReady(in)
 			request := <-in
-			result, err := worker(request)
+			result, err := e.RequestProcessor(request)
 			if err != nil {
 				continue
 			}
