@@ -8,4 +8,14 @@ const (
 	RedisAddr     = "localhost:6379"
 	RedisPassword = ""
 	RedisDB       = 0
+
+	//Parser names
+	ParseCity     = "ParseCity"
+	ParseCityList = "ParseCityList"
+	ParseProfile  = "ParseProfile"
+	NilParser     = "NilParser"
+
+	//要注册和本地调用的rpc服务
+	ItemSaverRpc    = "ItemSaverService.Save"
+	CrawlServiceRpc = "CrawlService.Process"
 )

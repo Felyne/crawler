@@ -1,8 +1,13 @@
 package engine
 
+type Parser interface {
+	Parse(contents []byte, url string) ParseResult
+	Serialize() (name string, args interface{})
+}
+
 type Request struct {
-	Url        string
-	ParserFunc ParserFunc //Url页面内容所对应的解析器
+	Url    string
+	Parser Parser //Url页面内容所对应的解析器
 }
 
 type ParseResult struct {
@@ -10,12 +15,44 @@ type ParseResult struct {
 	Items    []Item
 }
 
-type ParserFunc func(content []byte, url string) ParseResult
-
 //存储的一条记录
 type Item struct {
 	Url     string
 	Type    string
 	Id      string
 	Payload interface{}
+}
+
+type NilParser struct {
+}
+
+func (NilParser) Parse(_ []byte, _ string) ParseResult {
+	return ParseResult{}
+}
+
+func (NilParser) Serialize() (name string, args interface{}) {
+	return "NilParser", nil
+}
+
+type ParserFunc func(contents []byte, url string) ParseResult
+
+//通用的Parser实现
+type FuncParser struct {
+	parser ParserFunc
+	name   string
+}
+
+func (f *FuncParser) Parse(contents []byte, url string) ParseResult {
+	return f.parser(contents, url)
+}
+
+func (f *FuncParser) Serialize() (name string, args interface{}) {
+	return f.name, nil
+}
+
+func NewFuncParser(p ParserFunc, name string) *FuncParser {
+	return &FuncParser{
+		parser: p,
+		name:   name,
+	}
 }

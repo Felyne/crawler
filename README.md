@@ -1,7 +1,7 @@
-### golang爬虫
+### 爬取珍爱网数据的golang爬虫
 
 **目录说明**   
 
-   - `single`是单机版  
-   - `concurrent`是并发版
+   - `single`是单任务版  
+   - `concurrent`是单机并发版
    - `distributed`是分布式版

@@ -19,8 +19,8 @@ func ParseCity(contents []byte, _ string) engine.ParseResult {
 	for _, m := range matches {
 		//result.Items = append(result.Items, "User: "+string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
-			Url:        string(m[1]),
-			ParserFunc: ProfileParser(string(m[2])),
+			Url:    string(m[1]),
+			Parser: NewProfileParser(string(m[2])),
 		})
 	}
 
