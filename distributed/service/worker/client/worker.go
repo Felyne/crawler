@@ -7,7 +7,7 @@ import (
 	"net/rpc"
 )
 
-//worker从池子里抢夺client去调用rpc服务
+//worker从池子里拿到client去调用rpc服务
 func CreateProcessor(clientChan chan *rpc.Client) engine.Processor {
 	return func(req engine.Request) (engine.ParseResult, error) {
 		sReq := worker.SerializeRequest(req)

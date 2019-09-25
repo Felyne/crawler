@@ -8,6 +8,7 @@ import (
 	"crawler/distributed/service/rpcsupport"
 	worker "crawler/distributed/service/worker/client"
 	"crawler/distributed/zhenai/parser"
+
 	"flag"
 	"log"
 	"net/rpc"
@@ -48,22 +49,22 @@ func main() {
 		RedisClient:      redisClient,
 	}
 
-	e.Run(engine.Request{
-		Url: "http://www.zhenai.com/zhenghun",
-		Parser: engine.NewFuncParser(parser.ParseCityList,
-			config.ParseCityList),
-	})
-
 	//e.Run(engine.Request{
-	//	Url: "http://www.zhenai.com/zhenghun/shanghai",
-	//	Parser: engine.NewFuncParser(parser.ParseCity,
-	//		config.ParseCity),
+	//	Url: "http://www.zhenai.com/zhenghun",
+	//	Parser: engine.NewFuncParser(parser.ParseCityList,
+	//		config.ParseCityList),
 	//})
+
+	e.Run(engine.Request{
+		Url: "http://www.zhenai.com/zhenghun/shanghai",
+		Parser: engine.NewFuncParser(parser.ParseCity,
+			config.ParseCity),
+	})
 }
 
 //爬虫连接池
-//根据启用的rpc服务数去生成相应的rpc客户端数
-//worker的goroutine去去pool拿到client调用
+//根据启用的rpc服务数去生成相应的客户端数
+//workerCount个数的goroutine去抢client调用相应服务
 //rpc服务端并发处理
 func createClientPool(addrs []string) chan *rpc.Client {
 	var clients []*rpc.Client

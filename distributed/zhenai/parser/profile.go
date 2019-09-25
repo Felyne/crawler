@@ -95,7 +95,7 @@ func (p *ProfileParser) Parse(contents []byte, url string) engine.ParseResult {
 }
 
 //序列化传输过去，反序列化后用于NewProfileParser()
-func (p *ProfileParser) Serialize() (funcName string, args interface{}) {
+func (p *ProfileParser) Serialize() (name string, args interface{}) {
 	return config.ParseProfile, p.userName
 }
 
