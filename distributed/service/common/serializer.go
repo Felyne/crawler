@@ -1,4 +1,4 @@
-package worker
+package common
 
 import (
 	"crawler/distributed/config"

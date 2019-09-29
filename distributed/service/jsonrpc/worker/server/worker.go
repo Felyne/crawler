@@ -1,8 +1,8 @@
 package main
 
 import (
-	"crawler/distributed/service/rpcsupport"
-	"crawler/distributed/service/worker"
+	"crawler/distributed/service/jsonrpc/rpcsupport"
+	"crawler/distributed/service/jsonrpc/worker"
 	"flag"
 	"fmt"
 	"log"

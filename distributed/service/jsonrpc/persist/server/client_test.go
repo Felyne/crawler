@@ -4,7 +4,7 @@ import (
 	"crawler/distributed/config"
 	"crawler/distributed/engine"
 	"crawler/distributed/model"
-	"crawler/distributed/service/rpcsupport"
+	"crawler/distributed/service/jsonrpc/rpcsupport"
 	"testing"
 	"time"
 )

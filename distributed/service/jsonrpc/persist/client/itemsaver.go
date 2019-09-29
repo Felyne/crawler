@@ -3,7 +3,7 @@ package client
 import (
 	"crawler/distributed/config"
 	"crawler/distributed/engine"
-	"crawler/distributed/service/rpcsupport"
+	"crawler/distributed/service/jsonrpc/rpcsupport"
 	"log"
 )
 

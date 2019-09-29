@@ -2,8 +2,9 @@ package main
 
 import (
 	"crawler/distributed/config"
-	"crawler/distributed/service/rpcsupport"
-	"crawler/distributed/service/worker"
+	"crawler/distributed/service/common"
+	"crawler/distributed/service/jsonrpc/rpcsupport"
+	"crawler/distributed/service/jsonrpc/worker"
 	"fmt"
 	"testing"
 	"time"
@@ -17,14 +18,14 @@ func TestCrawlService(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	req := worker.Request{
+	req := common.Request{
 		Url: "http://album.zhenai.com/u/1314495053",
-		SerializedParser: worker.SerializedParser{
+		SerializedParser: common.SerializedParser{
 			Name: config.ParseProfile,
 			Args: "风中的蒲公英",
 		},
 	}
-	var result worker.ParseResult
+	var result common.ParseResult
 	err = client.Call(config.CrawlServiceRpc, req, &result)
 	if err != nil {
 		t.Error(err)

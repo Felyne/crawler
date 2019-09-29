@@ -4,9 +4,9 @@ import (
 	"crawler/distributed/config"
 	"crawler/distributed/engine"
 	"crawler/distributed/scheduler"
-	itemsaver "crawler/distributed/service/persist/client"
-	"crawler/distributed/service/rpcsupport"
-	worker "crawler/distributed/service/worker/client"
+	itemsaver "crawler/distributed/service/jsonrpc/persist/client"
+	"crawler/distributed/service/jsonrpc/rpcsupport"
+	worker "crawler/distributed/service/jsonrpc/worker/client"
 	"crawler/distributed/zhenai/parser"
 
 	"flag"

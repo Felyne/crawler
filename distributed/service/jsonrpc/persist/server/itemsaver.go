@@ -2,8 +2,8 @@ package main
 
 import (
 	"crawler/distributed/config"
-	"crawler/distributed/service/persist"
-	"crawler/distributed/service/rpcsupport"
+	"crawler/distributed/service/jsonrpc/persist"
+	"crawler/distributed/service/jsonrpc/rpcsupport"
 	"flag"
 	"fmt"
 	"log"
