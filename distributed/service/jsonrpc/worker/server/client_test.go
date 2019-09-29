@@ -3,8 +3,8 @@ package main
 import (
 	"crawler/distributed/config"
 	"crawler/distributed/serializer"
+	"crawler/distributed/service/impl/worker"
 	"crawler/distributed/service/jsonrpc/rpcsupport"
-	"crawler/distributed/service/jsonrpc/worker"
 	"fmt"
 	"testing"
 	"time"
