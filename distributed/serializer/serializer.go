@@ -1,4 +1,4 @@
-package common
+package serializer
 
 import (
 	"crawler/distributed/config"

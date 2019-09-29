@@ -2,7 +2,7 @@ package main
 
 import (
 	"crawler/distributed/config"
-	"crawler/distributed/service/common"
+	"crawler/distributed/serializer"
 	"crawler/distributed/service/jsonrpc/rpcsupport"
 	"crawler/distributed/service/jsonrpc/worker"
 	"fmt"
@@ -18,14 +18,14 @@ func TestCrawlService(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	req := common.Request{
+	req := serializer.Request{
 		Url: "http://album.zhenai.com/u/1314495053",
-		SerializedParser: common.SerializedParser{
+		SerializedParser: serializer.SerializedParser{
 			Name: config.ParseProfile,
 			Args: "风中的蒲公英",
 		},
 	}
-	var result common.ParseResult
+	var result serializer.ParseResult
 	err = client.Call(config.CrawlServiceRpc, req, &result)
 	if err != nil {
 		t.Error(err)

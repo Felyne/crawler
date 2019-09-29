@@ -1,7 +1,7 @@
 
 ### 爬取珍爱网数据的分布式爬虫
 
-**准备工作**
+准备工作
 
 ```shell
 # 数据存储在elastic里面
@@ -12,7 +12,7 @@ docker run -d --name=myredis -p 6379:6379 -v /home/chen/work/redis:/data redis:5
 
 #### 方式一 jsonrpc
 
-**进入`distributed`目录**
+进入`distributed`目录
 
 1.配置`config/config.go`
 

@@ -2,15 +2,15 @@ package worker
 
 import (
 	"crawler/distributed/engine"
-	"crawler/distributed/service/common"
+	"crawler/distributed/serializer"
 )
 
 type CrawlService struct{}
 
 //要注册的rpc服务
 //传入序列化的参数，得到序列化的结果
-func (CrawlService) Process(req common.Request, result *common.ParseResult) error {
-	engineReq, err := common.DeserializeRequest(req)
+func (CrawlService) Process(req serializer.Request, result *serializer.ParseResult) error {
+	engineReq, err := serializer.DeserializeRequest(req)
 	if err != nil {
 		return err
 	}
@@ -18,6 +18,6 @@ func (CrawlService) Process(req common.Request, result *common.ParseResult) erro
 	if err != nil {
 		return err
 	}
-	*result = common.SerializeResult(engineResult)
+	*result = serializer.SerializeResult(engineResult)
 	return nil
 }
