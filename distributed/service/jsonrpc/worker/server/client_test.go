@@ -3,8 +3,8 @@ package main
 import (
 	"crawler/distributed/config"
 	"crawler/distributed/serializer"
-	"crawler/distributed/service/impl/worker"
 	"crawler/distributed/service/jsonrpc/rpcsupport"
+	worker2 "crawler/distributed/service/jsonrpc/worker"
 	"fmt"
 	"testing"
 	"time"
@@ -12,7 +12,7 @@ import (
 
 func TestCrawlService(t *testing.T) {
 	const addr = ":9000"
-	go rpcsupport.ServeRpc(addr, worker.CrawlService{})
+	go rpcsupport.ServeRpc(addr, worker2.CrawlService{})
 	time.Sleep(time.Second)
 	client, err := rpcsupport.NewClient(addr)
 	if err != nil {
