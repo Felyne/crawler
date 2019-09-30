@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "github.com/Felyne/crawler/distributed/service/gomicro/worker/pb";
+
+import "github.com/Felyne/crawler/distributed/service/gomicro/common/common.proto";
+
+package pb;
+
+enum ServiceName {
+    CRAWLER_SERVICE = 0;
+}
+
+message SerializedParser {
+    string Name = 1;
+    bytes Args = 2;
+}
+
+message Request {
+    string Url = 1;
+    SerializedParser SerializedParser = 2;
+}
+
+message ParseResult {
+    repeated common.Item Items = 1;
+    repeated Request Requests = 2;
+}
+
+service Crawler {
+    rpc Process(Request) returns (ParseResult) {}
+}

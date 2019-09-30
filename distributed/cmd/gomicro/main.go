@@ -5,19 +5,14 @@ import (
 	"github.com/Felyne/crawler/distributed/engine"
 	"github.com/Felyne/crawler/distributed/scheduler"
 	itemsaver "github.com/Felyne/crawler/distributed/service/gomicro/persist/client"
-	"github.com/Felyne/crawler/distributed/service/jsonrpc/rpcsupport"
-	worker "github.com/Felyne/crawler/distributed/service/jsonrpc/worker/client"
+	worker "github.com/Felyne/crawler/distributed/service/gomicro/worker/client"
+	"github.com/Felyne/crawler/distributed/service/gomicro/worker/pb"
 	"github.com/Felyne/crawler/distributed/zhenai/parser"
 
 	"flag"
-	"log"
-	"net/rpc"
-	"strings"
 
 	"github.com/go-redis/redis"
 )
-
-var workerHosts = ":9000,:9001"
 
 func main() {
 	flag.Parse()
@@ -35,8 +30,9 @@ func main() {
 		panic(err)
 	}
 	defer redisClient.Close()
-	pool := createClientPool(strings.Split(workerHosts, ","))
-	processor := worker.CreateProcessor(pool)
+	//pool := createClientPool(etcdAddrs, 1)
+	//processor := worker.CreateProcessor(pool)
+	processor := worker.CreateProcessor2(etcdAddrs)
 	e := engine.ConcurrentEngine{
 		Scheduler:        &scheduler.QueuedScheduler{},
 		WorkerCount:      10,
@@ -62,18 +58,12 @@ func main() {
 //根据启用的rpc服务数去生成相应的客户端数
 //workerCount个数的goroutine去抢client调用相应服务
 //rpc服务端并发处理
-func createClientPool(addrs []string) chan *rpc.Client {
-	var clients []*rpc.Client
-	for _, h := range addrs {
-		c, err := rpcsupport.NewClient(h)
-		if err == nil {
-			clients = append(clients, c)
-			log.Printf("Connected to %s", h)
-		} else {
-			log.Printf("error connecting to %s: %v", h, err)
-		}
+func createClientPool(etcdAddrs []string, n int) chan pb.CrawlerService {
+	var clients []pb.CrawlerService
+	for i := 0; i < n; i++ {
+		clients = append(clients, worker.GetClient(etcdAddrs))
 	}
-	out := make(chan *rpc.Client)
+	out := make(chan pb.CrawlerService)
 	go func() {
 		for {
 			for _, c := range clients {
