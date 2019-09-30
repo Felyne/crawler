@@ -1,10 +1,11 @@
 package client
 
 import (
-	"crawler/distributed/config"
-	"crawler/distributed/engine"
-	"crawler/distributed/service/jsonrpc/rpcsupport"
 	"log"
+
+	"github.com/Felyne/crawler/distributed/config"
+	"github.com/Felyne/crawler/distributed/engine"
+	"github.com/Felyne/crawler/distributed/service/jsonrpc/rpcsupport"
 )
 
 //ItemSaver客户端

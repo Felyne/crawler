@@ -1,13 +1,14 @@
 package main
 
 import (
-	"crawler/distributed/config"
-	"crawler/distributed/serializer"
-	"crawler/distributed/service/jsonrpc/rpcsupport"
-	worker2 "crawler/distributed/service/jsonrpc/worker"
 	"fmt"
 	"testing"
 	"time"
+
+	"github.com/Felyne/crawler/distributed/config"
+	"github.com/Felyne/crawler/distributed/serializer"
+	"github.com/Felyne/crawler/distributed/service/jsonrpc/rpcsupport"
+	worker2 "github.com/Felyne/crawler/distributed/service/jsonrpc/worker"
 )
 
 func TestCrawlService(t *testing.T) {

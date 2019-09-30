@@ -2,10 +2,11 @@ package persist
 
 import (
 	"context"
-	"crawler/distributed/service/gomicro/persist/pb"
 	"encoding/json"
 	"errors"
 	"fmt"
+
+	"github.com/Felyne/crawler/distributed/service/gomicro/persist/pb"
 
 	"github.com/astaxie/beego/config"
 	"gopkg.in/olivere/elastic.v5"

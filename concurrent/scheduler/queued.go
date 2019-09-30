@@ -1,6 +1,6 @@
 package scheduler
 
-import "crawler/concurrent/engine"
+import "github.com/Felyne/crawler/concurrent/engine"
 
 type QueuedScheduler struct {
 	requestChan chan engine.Request

@@ -1,12 +1,14 @@
 package main
 
 import (
-	"crawler/distributed/config"
-	"crawler/distributed/engine"
-	"crawler/distributed/model"
-	"crawler/distributed/service/jsonrpc/rpcsupport"
 	"testing"
 	"time"
+
+	"github.com/Felyne/crawler/distributed/engine"
+	"github.com/Felyne/crawler/distributed/model"
+	"github.com/Felyne/crawler/distributed/service/jsonrpc/rpcsupport"
+
+	"github.com/Felyne/crawler/distributed/config"
 )
 
 func TestItemSaver(t *testing.T) {

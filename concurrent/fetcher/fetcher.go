@@ -2,13 +2,14 @@ package fetcher
 
 import (
 	"bufio"
-	"crawler/concurrent/config"
-	"crawler/util"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/Felyne/crawler/concurrent/config"
+	"github.com/Felyne/crawler/util"
 
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding"

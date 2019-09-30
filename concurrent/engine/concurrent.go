@@ -1,9 +1,10 @@
 package engine
 
 import (
-	"crawler/concurrent/config"
 	"log"
 	"time"
+
+	"github.com/Felyne/crawler/concurrent/config"
 )
 
 type ConcurrentEngine struct {

@@ -1,8 +1,9 @@
 package parser
 
 import (
-	"crawler/single/engine"
 	"regexp"
+
+	"github.com/Felyne/crawler/single/engine"
 )
 
 const limit = 5

@@ -1,9 +1,10 @@
 package engine
 
 import (
-	"crawler/distributed/config"
 	"log"
 	"time"
+
+	"github.com/Felyne/crawler/distributed/config"
 
 	"github.com/go-redis/redis"
 )

@@ -1,8 +1,8 @@
 package worker
 
 import (
-	"crawler/distributed/engine"
-	"crawler/distributed/serializer"
+	"github.com/Felyne/crawler/distributed/engine"
+	"github.com/Felyne/crawler/distributed/serializer"
 )
 
 type CrawlService struct{}

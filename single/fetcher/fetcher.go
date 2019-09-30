@@ -2,12 +2,13 @@ package fetcher
 
 import (
 	"bufio"
-	"crawler/util"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/Felyne/crawler/util"
 
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding"

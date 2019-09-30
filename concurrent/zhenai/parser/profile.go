@@ -1,10 +1,11 @@
 package parser
 
 import (
-	"crawler/concurrent/engine"
-	"crawler/concurrent/model"
 	"regexp"
 	"strconv"
+
+	"github.com/Felyne/crawler/concurrent/engine"
+	"github.com/Felyne/crawler/concurrent/model"
 )
 
 //预先编译

@@ -1,6 +1,6 @@
 package scheduler
 
-import "crawler/distributed/engine"
+import "github.com/Felyne/crawler/distributed/engine"
 
 type SimpleScheduler struct {
 	requestChan chan engine.Request

@@ -5,8 +5,9 @@ import (
 
 	"github.com/astaxie/beego/config"
 
-	"crawler/distributed/service/gomicro/persist"
-	"crawler/distributed/service/gomicro/persist/pb"
+	"github.com/Felyne/crawler/distributed/service/gomicro/persist/pb"
+
+	"github.com/Felyne/crawler/distributed/service/gomicro/persist"
 
 	"github.com/Felyne/service_launch"
 	"github.com/micro/go-micro/server"

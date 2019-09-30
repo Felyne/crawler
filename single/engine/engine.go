@@ -1,8 +1,9 @@
 package engine
 
 import (
-	"crawler/single/fetcher"
 	"log"
+
+	"github.com/Felyne/crawler/single/fetcher"
 )
 
 func Run(seeds ...Request) {

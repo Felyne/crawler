@@ -1,10 +1,10 @@
 package main
 
 import (
-	"crawler/concurrent/engine"
-	"crawler/concurrent/persist"
-	"crawler/concurrent/scheduler"
-	"crawler/concurrent/zhenai/parser"
+	"github.com/Felyne/crawler/concurrent/engine"
+	"github.com/Felyne/crawler/concurrent/persist"
+	"github.com/Felyne/crawler/concurrent/scheduler"
+	"github.com/Felyne/crawler/concurrent/zhenai/parser"
 )
 
 func main() {

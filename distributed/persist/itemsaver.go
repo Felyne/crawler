@@ -2,9 +2,10 @@ package persist
 
 import (
 	"context"
-	"crawler/distributed/engine"
 	"errors"
 	"log"
+
+	"github.com/Felyne/crawler/distributed/engine"
 
 	"gopkg.in/olivere/elastic.v5"
 )

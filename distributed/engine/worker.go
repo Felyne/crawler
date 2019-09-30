@@ -1,8 +1,9 @@
 package engine
 
 import (
-	"crawler/distributed/fetcher"
 	"log"
+
+	"github.com/Felyne/crawler/distributed/fetcher"
 )
 
 func Worker(r Request) (ParseResult, error) {

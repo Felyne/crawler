@@ -1,8 +1,9 @@
 package parser
 
 import (
-	"crawler/concurrent/engine"
 	"regexp"
+
+	"github.com/Felyne/crawler/concurrent/engine"
 )
 
 var (

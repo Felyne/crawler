@@ -1,10 +1,11 @@
 package client
 
 import (
-	"crawler/distributed/config"
-	"crawler/distributed/engine"
-	"crawler/distributed/serializer"
 	"net/rpc"
+
+	"github.com/Felyne/crawler/distributed/config"
+	"github.com/Felyne/crawler/distributed/engine"
+	"github.com/Felyne/crawler/distributed/serializer"
 )
 
 //worker从池子里拿到client去调用rpc服务

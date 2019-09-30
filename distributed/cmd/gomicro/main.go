@@ -1,13 +1,13 @@
 package main
 
 import (
-	"crawler/distributed/config"
-	"crawler/distributed/engine"
-	"crawler/distributed/scheduler"
-	itemsaver "crawler/distributed/service/gomicro/persist/client"
-	"crawler/distributed/service/jsonrpc/rpcsupport"
-	worker "crawler/distributed/service/jsonrpc/worker/client"
-	"crawler/distributed/zhenai/parser"
+	"github.com/Felyne/crawler/distributed/config"
+	"github.com/Felyne/crawler/distributed/engine"
+	"github.com/Felyne/crawler/distributed/scheduler"
+	itemsaver "github.com/Felyne/crawler/distributed/service/gomicro/persist/client"
+	"github.com/Felyne/crawler/distributed/service/jsonrpc/rpcsupport"
+	worker "github.com/Felyne/crawler/distributed/service/jsonrpc/worker/client"
+	"github.com/Felyne/crawler/distributed/zhenai/parser"
 
 	"flag"
 	"log"

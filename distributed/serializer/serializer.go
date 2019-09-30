@@ -1,12 +1,15 @@
 package serializer
 
 import (
-	"crawler/distributed/config"
-	"crawler/distributed/engine"
-	"crawler/distributed/zhenai/parser"
 	"errors"
 	"fmt"
 	"log"
+
+	"github.com/Felyne/crawler/distributed/engine"
+
+	"github.com/Felyne/crawler/distributed/zhenai/parser"
+
+	"github.com/Felyne/crawler/distributed/config"
 )
 
 //把Parser序列化用于传输

@@ -1,10 +1,11 @@
 package parser
 
 import (
-	"crawler/single/engine"
-	"crawler/single/model"
 	"regexp"
 	"strconv"
+
+	"github.com/Felyne/crawler/single/engine"
+	"github.com/Felyne/crawler/single/model"
 )
 
 //预先编译

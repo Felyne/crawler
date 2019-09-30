@@ -1,11 +1,11 @@
 package main
 
 import (
-	"crawler/distributed/config"
-	"crawler/distributed/engine"
-	"crawler/distributed/persist"
-	"crawler/distributed/scheduler"
-	"crawler/distributed/zhenai/parser"
+	"github.com/Felyne/crawler/distributed/config"
+	"github.com/Felyne/crawler/distributed/engine"
+	"github.com/Felyne/crawler/distributed/persist"
+	"github.com/Felyne/crawler/distributed/scheduler"
+	"github.com/Felyne/crawler/distributed/zhenai/parser"
 
 	"github.com/go-redis/redis"
 )

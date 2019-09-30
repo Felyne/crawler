@@ -1,11 +1,12 @@
 package main
 
 import (
-	"crawler/distributed/service/jsonrpc/rpcsupport"
-	"crawler/distributed/service/jsonrpc/worker"
 	"flag"
 	"fmt"
 	"log"
+
+	"github.com/Felyne/crawler/distributed/service/jsonrpc/rpcsupport"
+	"github.com/Felyne/crawler/distributed/service/jsonrpc/worker"
 )
 
 var port = flag.Int("port", 0, "server listen port")

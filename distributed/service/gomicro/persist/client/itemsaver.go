@@ -2,11 +2,12 @@ package client
 
 import (
 	"context"
-	"crawler/distributed/engine"
-	"crawler/distributed/service/gomicro/microsupport"
-	"crawler/distributed/service/gomicro/persist/pb"
 	"encoding/json"
 	"log"
+
+	"github.com/Felyne/crawler/distributed/engine"
+	"github.com/Felyne/crawler/distributed/service/gomicro/microsupport"
+	"github.com/Felyne/crawler/distributed/service/gomicro/persist/pb"
 
 	"github.com/micro/go-micro/client"
 )

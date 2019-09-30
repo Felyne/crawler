@@ -1,11 +1,12 @@
 package parser
 
 import (
-	"crawler/distributed/config"
-	"crawler/distributed/engine"
-	"crawler/distributed/model"
 	"regexp"
 	"strconv"
+
+	"github.com/Felyne/crawler/distributed/config"
+	"github.com/Felyne/crawler/distributed/engine"
+	"github.com/Felyne/crawler/distributed/model"
 )
 
 //预先编译

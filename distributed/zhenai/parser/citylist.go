@@ -1,9 +1,10 @@
 package parser
 
 import (
-	"crawler/distributed/config"
-	"crawler/distributed/engine"
 	"regexp"
+
+	"github.com/Felyne/crawler/distributed/config"
+	"github.com/Felyne/crawler/distributed/engine"
 )
 
 var cityListRe = regexp.MustCompile(`<a href="(http://www.zhenai.com/zhenghun/[a-z0-9]+)"[^>]*>([^<]+)</a>`)
