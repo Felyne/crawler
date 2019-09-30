@@ -8,7 +8,7 @@ const (
 	RedisAddr     = "localhost:6379"
 	RedisPassword = ""
 	RedisDB       = 0
-	EtcdAddr      = "http://192.168.41.35:2379"
+	EtcdAddr      = "http://localhost:2379"
 
 	//Parser names
 	ParseCity     = "ParseCity"

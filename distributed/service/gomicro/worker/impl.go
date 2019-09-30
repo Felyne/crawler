@@ -3,13 +3,14 @@ package worker
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/Felyne/crawler/distributed/service/gomicro/common"
 
 	"github.com/Felyne/crawler/distributed/engine"
 
 	"github.com/Felyne/crawler/distributed/serializer"
-	"github.com/Felyne/crawler/distributed/service/gomicro/worker/pb"
+	pb "github.com/Felyne/crawler/distributed/service/gomicro/worker/pb_crawler"
 )
 
 type CrawlerService struct {
@@ -24,6 +25,7 @@ func (c CrawlerService) Process(ctx context.Context, pbReq *pb.Request, pbRes *p
 	if err != nil {
 		return err
 	}
+	fmt.Println("worker result:", len(engineResult.Requests), len(engineResult.Items))
 	pbRes, err = getPbResult(engineResult)
 	if err != nil {
 		return err

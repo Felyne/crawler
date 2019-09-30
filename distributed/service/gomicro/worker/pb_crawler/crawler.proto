@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-option go_package = "github.com/Felyne/crawler/distributed/service/gomicro/worker/pb";
+option go_package = "github.com/Felyne/crawler/distributed/service/gomicro/worker/pb_crawler";
 
 import "github.com/Felyne/crawler/distributed/service/gomicro/common/common.proto";
 
-package pb;
+package pb_crawler;
 
 enum ServiceName {
     CRAWLER_SERVICE = 0;

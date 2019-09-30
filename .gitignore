@@ -18,3 +18,5 @@
 
 .idea
 .vscode
+distributed/service/gomicro/persist/server/itemsaver
+distributed/service/gomicro/worker/server/cralwer

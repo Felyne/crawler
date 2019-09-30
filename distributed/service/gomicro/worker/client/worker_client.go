@@ -3,71 +3,61 @@ package client
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"log"
 
 	"github.com/Felyne/crawler/distributed/engine"
 	"github.com/Felyne/crawler/distributed/serializer"
 	"github.com/Felyne/crawler/distributed/service/gomicro/microsupport"
-	"github.com/Felyne/crawler/distributed/service/gomicro/worker/pb"
-
+	"github.com/Felyne/crawler/distributed/service/gomicro/worker/pb_crawler"
 	"github.com/micro/go-micro/client"
 )
 
-func GetClient(etcdAddrs []string) pb.CrawlerService {
+func GetClient(etcdAddrs []string) pb_crawler.CrawlerService {
 	cli := microsupport.NewClient(etcdAddrs,
 		func(c client.Client) interface{} {
-			return pb.NewCrawlerService(pb.ServiceName_name[0], c)
+			return pb_crawler.NewCrawlerService(pb_crawler.ServiceName_name[0], c)
 		})
-	return cli.(pb.CrawlerService)
-}
-
-//测试
-func CreateProcessor2(etcdAddrs []string) engine.Processor {
-	cli := GetClient(etcdAddrs)
-	return func(req engine.Request) (engine.ParseResult, error) {
-		pbReq, err := getPbReq(req)
-		if err != nil {
-			return engine.ParseResult{}, err
-		}
-		pbRes, err := cli.Process(context.TODO(), pbReq)
-		if err != nil {
-			return engine.ParseResult{}, err
-		}
-		return getEngineResult(pbRes)
-	}
+	return cli.(pb_crawler.CrawlerService)
 }
 
 //worker从池子里拿到client去调用rpc服务
-func CreateProcessor(clientChan chan pb.CrawlerService) engine.Processor {
+func CreateProcessor(clientChan chan pb_crawler.CrawlerService) engine.Processor {
 	return func(req engine.Request) (engine.ParseResult, error) {
 		pbReq, err := getPbReq(req)
 		if err != nil {
 			return engine.ParseResult{}, err
 		}
 		c := <-clientChan
+		fmt.Println("process() start")
 		pbRes, err := c.Process(context.TODO(), pbReq)
 		if err != nil {
+			log.Printf("Process() rpc error: %s\n", err)
 			return engine.ParseResult{}, err
 		}
+		fmt.Println(len(pbRes.Requests), len(pbRes.Items))
+		fmt.Println("process() end")
+
 		return getEngineResult(pbRes)
 	}
 }
 
-func getPbReq(req engine.Request) (*pb.Request, error) {
+func getPbReq(req engine.Request) (*pb_crawler.Request, error) {
 	sReq := serializer.SerializeRequest(req)
 	args, err := json.Marshal(sReq.SerializedParser.Args)
 	if err != nil {
 		return nil, err
 	}
-	return &pb.Request{
+	return &pb_crawler.Request{
 		Url: sReq.Url,
-		SerializedParser: &pb.SerializedParser{
+		SerializedParser: &pb_crawler.SerializedParser{
 			Name: sReq.SerializedParser.Name,
 			Args: args,
 		},
 	}, nil
 }
 
-func getEngineResult(pbRes *pb.ParseResult) (engine.ParseResult, error) {
+func getEngineResult(pbRes *pb_crawler.ParseResult) (engine.ParseResult, error) {
 	var items []engine.Item
 	for _, t := range pbRes.Items {
 		var payload interface{}
@@ -101,7 +91,7 @@ func getEngineResult(pbRes *pb.ParseResult) (engine.ParseResult, error) {
 		}
 		requests = append(requests, engineReq)
 	}
-
+	//fmt.Println("req count:", len(requests), "item count:", len(items))
 	return engine.ParseResult{
 		Items:    items,
 		Requests: requests,
