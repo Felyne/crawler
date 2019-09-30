@@ -4,17 +4,16 @@
 package pb
 
 import (
-	"fmt"
-	"math"
-
-	"github.com/golang/protobuf/proto"
+	fmt "fmt"
+	common "github.com/Felyne/crawler/distributed/service/gomicro/common"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
 )
 
 import (
-	"context"
-
-	"github.com/micro/go-micro/client"
-	"github.com/micro/go-micro/server"
+	context "context"
+	client "github.com/micro/go-micro/client"
+	server "github.com/micro/go-micro/server"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -36,7 +35,7 @@ var _ server.Option
 // Client API for ItemSaver service
 
 type ItemSaverService interface {
-	Save(ctx context.Context, in *Item, opts ...client.CallOption) (*Resp, error)
+	Save(ctx context.Context, in *common.Item, opts ...client.CallOption) (*Resp, error)
 }
 
 type itemSaverService struct {
@@ -57,7 +56,7 @@ func NewItemSaverService(name string, c client.Client) ItemSaverService {
 	}
 }
 
-func (c *itemSaverService) Save(ctx context.Context, in *Item, opts ...client.CallOption) (*Resp, error) {
+func (c *itemSaverService) Save(ctx context.Context, in *common.Item, opts ...client.CallOption) (*Resp, error) {
 	req := c.c.NewRequest(c.name, "ItemSaver.Save", in)
 	out := new(Resp)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -70,12 +69,12 @@ func (c *itemSaverService) Save(ctx context.Context, in *Item, opts ...client.Ca
 // Server API for ItemSaver service
 
 type ItemSaverHandler interface {
-	Save(context.Context, *Item, *Resp) error
+	Save(context.Context, *common.Item, *Resp) error
 }
 
 func RegisterItemSaverHandler(s server.Server, hdlr ItemSaverHandler, opts ...server.HandlerOption) error {
 	type itemSaver interface {
-		Save(ctx context.Context, in *Item, out *Resp) error
+		Save(ctx context.Context, in *common.Item, out *Resp) error
 	}
 	type ItemSaver struct {
 		itemSaver
@@ -88,6 +87,6 @@ type itemSaverHandler struct {
 	ItemSaverHandler
 }
 
-func (h *itemSaverHandler) Save(ctx context.Context, in *Item, out *Resp) error {
+func (h *itemSaverHandler) Save(ctx context.Context, in *common.Item, out *Resp) error {
 	return h.ItemSaverHandler.Save(ctx, in, out)
 }

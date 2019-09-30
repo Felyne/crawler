@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option go_package = "github.com/Felyne/crawler/distributed/service/gomicro/common";
+
+package common;
+
+//存储的一条记录
+message Item {
+    string Url = 1;
+    string Type = 2;
+    string Id = 3;
+    bytes Payload = 4;
+}

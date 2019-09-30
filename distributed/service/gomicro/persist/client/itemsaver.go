@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/Felyne/crawler/distributed/engine"
+	"github.com/Felyne/crawler/distributed/service/gomicro/common"
 	"github.com/Felyne/crawler/distributed/service/gomicro/microsupport"
 	"github.com/Felyne/crawler/distributed/service/gomicro/persist/pb"
 
@@ -37,7 +38,7 @@ func ItemSaver(etcdAddrs []string) (chan engine.Item, error) {
 					log.Printf("Item Saver: error saving item %v: %v", item, err)
 				}
 			}
-			pbItem := &pb.Item{
+			pbItem := &common.Item{
 				Url:     item.Url,
 				Type:    item.Type,
 				Id:      item.Id,

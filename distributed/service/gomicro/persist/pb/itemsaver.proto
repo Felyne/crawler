@@ -1,17 +1,13 @@
 syntax = "proto3";
 
+option go_package = "github.com/Felyne/crawler/distributed/service/gomicro/persist/pb";
+
+import "github.com/Felyne/crawler/distributed/service/gomicro/common/common.proto";
+
 package pb;
 
 enum ServiceName {
     ITEMSAVER_SERVICE = 0;
-}
-
-//存储的一条记录
-message Item {
-    string Url = 1;
-    string Type = 2;
-    string Id = 3;
-    bytes Payload = 4;
 }
 
 message Resp {
@@ -19,5 +15,5 @@ message Resp {
 }
 
 service ItemSaver {
-    rpc Save(Item) returns (Resp) {}
+    rpc Save(common.Item) returns (Resp) {}
 }

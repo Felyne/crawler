@@ -4,7 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
+
+	"github.com/Felyne/crawler/distributed/service/gomicro/common"
+
+	"github.com/Felyne/crawler/distributed/engine"
 
 	"github.com/Felyne/crawler/distributed/service/gomicro/persist/pb"
 
@@ -25,6 +28,7 @@ func NewItemSaverService(cfg config.Configer) (*ItemSaverService, error) {
 	if elasticURL == "" || index == "" {
 		return nil, ErrConfig
 	}
+
 	client, err := elastic.NewClient(
 		elastic.SetSniff(false),
 		elastic.SetURL(elasticURL))
@@ -37,22 +41,16 @@ func NewItemSaverService(cfg config.Configer) (*ItemSaverService, error) {
 	}, nil
 }
 
-func (s *ItemSaverService) Save(ctx context.Context, item *pb.Item, resp *pb.Resp) error {
+func (s *ItemSaverService) Save(ctx context.Context, item *common.Item, resp *pb.Resp) error {
 	if item.Type == "" {
 		return errors.New("must supply Type")
 	}
 	var payload interface{}
 	err := json.Unmarshal(item.Payload, &payload)
 	if err != nil {
-		fmt.Println("fuck 1111")
 		return err
 	}
-	newItem := struct {
-		Url     string
-		Type    string
-		Id      string
-		Payload interface{}
-	}{
+	newItem := engine.Item{
 		Url:     item.Url,
 		Type:    item.Type,
 		Id:      item.Id,
@@ -67,10 +65,8 @@ func (s *ItemSaverService) Save(ctx context.Context, item *pb.Item, resp *pb.Res
 	}
 	_, err = indexService.Do(context.Background())
 	if err != nil {
-		fmt.Println("fuck 2222")
 		return err
 	}
-	fmt.Println("success:", item.Id)
 	resp.Result = "ok"
 	//fmt.Printf("%+v", resp)
 	return nil
